@@ -1,1 +1,1 @@
-export DJANGO_DATABASE='test'
+export DJANGO_SETTINGS_MODULE='hearthstonearenastats.settings.local'

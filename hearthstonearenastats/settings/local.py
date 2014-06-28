@@ -1,7 +1,7 @@
 from hearthstonearenastats.settings.base import *
 
 DATABASES = {
-    'test': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'testing.sqlitedb',
     },
