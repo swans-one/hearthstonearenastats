@@ -63,7 +63,7 @@ DATABASES = {
         'PASSWORD': os.environ.get('DBPASS'),
         'HOST': 'localhost',
         'PORT': '',
-    }
+    },
     'test': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'testing.sqlitedb',
