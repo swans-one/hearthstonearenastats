@@ -56,7 +56,7 @@ WSGI_APPLICATION = 'hearthstonearenastats.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'main': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'hearthstats',
         'USER': 'hearthdbuser',
@@ -64,7 +64,14 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '',
     }
+    'test': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'testing.sqlitedb',
+    }
 }
+
+default_database = os.environ.get('DJANGO_DATABASE', 'main')
+DATABASES['default'] = DATABASES[default_database]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
