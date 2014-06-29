@@ -1,0 +1,4 @@
+/* Right align header menu items. */
+.cust-item-right ul {
+    float: right;
+}
