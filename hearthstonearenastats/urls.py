@@ -8,4 +8,5 @@ urlpatterns = patterns(
     '',
     (r'^$', TemplateView.as_view(template_name='index.html')),
     url(r'^admin/', include(admin.site.urls)),
+    (r'^account/login/', 'django.contrib.auth.views.login'),
 )
