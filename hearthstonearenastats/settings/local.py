@@ -1,4 +1,9 @@
+import os
+
 from hearthstonearenastats.settings.base import *
+
+project_root = os.path.abspath(os.path.dirname('__file__'))
+
 
 DATABASES = {
     'default': {
@@ -6,6 +11,10 @@ DATABASES = {
         'NAME': 'testing.sqlitedb',
     },
 }
+
+TEMPLATE_DIRS = (
+    os.path.join(project_root, 'templates'),
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

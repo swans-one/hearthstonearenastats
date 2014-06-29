@@ -20,3 +20,7 @@ DATABASES = {
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 STATIC_ROOT = '/webapps/static/'
+
+TEMPLATE_DIRS = (
+    '/webapps/hearthstonearenastats/templates',
+)
