@@ -2,3 +2,13 @@
 .cust-item-right ul {
     float: right;
 }
+
+.main-content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.main-content h1 {
+    text-align: center;
+}
