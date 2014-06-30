@@ -1,21 +1,15 @@
-{% extends "base.html" %}
+{% extends "base-home.html" %}
 
-{% block body %}
-<div id="menu">
-  <div class="pure-menu pure-menu-open pure-menu-horizontal cust-item-right">
-    <a class="pure-menu-heading" href="#">Hearthstone Arena Stats</a>
-    <ul>
-      <li>
-        <a href="#">About</a>
-      </li>
-      <li>
-        {% if user.is_authenticated %}
-        <a href="/account/logout">Log Out</a>
-        {% else %}
-        <a href="/account/login">Login</a>
-        {% endif %}
-      </li>
-    </ul>
+{% block content %}
+
+<div class="banner">
+  <div class="banner-head">
+    Understand your games.
+    <br />
+    Improve your performance.
+  </div>
+  <div class="attribution">
+    Used under CC from: <a href="https://www.flickr.com/photos/wolferey/3424993659">wolfery</a>.
   </div>
 </div>
 
