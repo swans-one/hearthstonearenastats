@@ -2,11 +2,10 @@ import os
 
 from django.core.management import call_command
 from django.test import TestCase
-from mock import patch
 
 from hearthstonearenastats.app.card.models import Patch, Card
 from hearthstonearenastats.app.card.management.commands.import_cards import (
-    get_or_create_patch, bulk_insert_cards
+    get_or_create_patch,
 )
 
 

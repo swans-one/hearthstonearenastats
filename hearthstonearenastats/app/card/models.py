@@ -4,9 +4,11 @@ _hero_choices = (
     'neutral', 'druid', 'hunter', 'mage', 'paladin',
     'priest', 'rogue', 'shaman', 'warlock', 'warrior'
 )
+_race_choices = (
+    'none', 'murloc', 'demon', 'totem', 'dragon', 'beast', 'pirate'
+)
 _category_choices = ('minion', 'weapon', 'spell', 'hero', 'ability')
 _quality_choices = ('rare', 'free', 'uncommon', 'common', 'legendary', 'epic')
-_race_choices = ('none', 'murloc', 'demon', 'totem', 'dragon', 'beast', 'pirate')
 _card_set_choices = ('promotion', 'reward', 'missions', 'expert', 'basic')
 
 CHOICES = {
@@ -16,6 +18,7 @@ CHOICES = {
     'race': tuple(zip(_race_choices, _race_choices)),
     'card_set': tuple(zip(_card_set_choices, _card_set_choices)),
 }
+
 
 class Card(models.Model):
     patch = models.ForeignKey('Patch')
