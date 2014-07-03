@@ -1,0 +1,46 @@
+{
+    "meta": {
+            "patch": "1.0.0.5314",
+            "last_updated": "08.05.2014",
+            "repository": "http://github.com/pdyck/hearthstone-db",
+            "updated_by": "@philippdyck"
+        },
+    "cards": [
+      {
+        "id": 7,
+        "name": "Garrosh Hellscream",
+        "description": "",
+        "image_url": "http:\/\/wow.zamimg.com\/images\/hearthstone\/cards\/enus\/medium\/HERO_01.png",
+        "hero": "warrior",
+        "category": "hero",
+        "quality": "free",
+        "race": "none",
+        "set": "basic",
+        "mana": 0,
+        "attack": null,
+        "health": 30,
+        "collectible": true,
+        "effect_list": [
+          
+        ]
+      },
+      {
+        "id": 8,
+        "name": "Mind Control",
+        "description": "Take control of an enemy minion.",
+        "image_url": "http:\/\/wow.zamimg.com\/images\/hearthstone\/cards\/enus\/medium\/CS1_113.png",
+        "hero": "priest",
+        "category": "spell",
+        "quality": "common",
+        "race": "none",
+        "set": "basic",
+        "mana": 10,
+        "attack": null,
+        "health": null,
+        "collectible": true,
+        "effect_list": [
+          
+        ]
+      }
+    ]
+}

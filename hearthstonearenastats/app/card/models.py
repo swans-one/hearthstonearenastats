@@ -34,4 +34,4 @@ class Card(models.Model):
 
 class Patch(models.Model):
     patch_version = models.CharField(max_length=32)
-    db_update_date = models.DateField()
+    db_update_date = models.DateField(null=True)
