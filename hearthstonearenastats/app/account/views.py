@@ -1,4 +1,4 @@
-from django.view.generic import TemplateView
+from django.views.generic import TemplateView
 from braces.views import LoginRequiredMixin
 
 class ProfileMainPage(LoginRequiredMixin, TemplateView):
