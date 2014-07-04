@@ -10,5 +10,6 @@ install:
   - pip install flake8 psycopg2
 before_script:
   - flake8 ./hearthstonearenastats --exclude='env,migrations'
+  - psql -c 'CREATE DATABASE hearthstats;' -U hearthdbuser
 script:
   - python manage.py test
