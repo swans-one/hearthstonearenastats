@@ -3,7 +3,7 @@ python:
   - "2.7"
 env:
   global:
-    - DJANGO_SETTINGS_MODULE=hearthstonearenastats.settings.production
+    - DJANGO_SETTINGS_MODULE=hearthstonearenastats.settings.travis_ci
     - DJANGO_SECRET_KEY=asecretkeyonlyfortravistesting
 install: 
   - pip install -r requirements.txt
