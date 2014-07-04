@@ -1,0 +1,15 @@
+language: python
+python:
+  - "2.7"
+env:
+  global:
+    - DJANGO_SETTINGS_MODULE=hearthstonearenastats.settings.travis_ci
+    - DJANGO_SECRET_KEY=asecretkeyonlyfortravistesting
+install: 
+  - pip install -r requirements.txt
+  - pip install flake8 psycopg2
+before_script:
+  - flake8 ./hearthstonearenastats --exclude='env,migrations'
+  - psql -c 'CREATE DATABASE hearthstats;' -U postgres
+script:
+  - python manage.py test

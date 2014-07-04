@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Wilduck/hearthstonearenastats.svg?branch=develop)](https://travis-ci.org/Wilduck/hearthstonearenastats)
+
 Hearthstone Arena Stats
 ==================================================
 
