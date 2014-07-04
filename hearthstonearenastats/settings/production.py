@@ -1,6 +1,6 @@
 import os
 
-from hearthstonearenastats.settings.base import *
+from hearthstonearenastats.settings.base import *  # noqa
 
 DEBUG = False
 TEMPLATE_DEBUG = False
