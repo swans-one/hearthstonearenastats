@@ -3,16 +3,7 @@
     float: right;
 }
 
-.main-content {
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-}
-
-.main-content h1 {
-    text-align: center;
-}
-
+/* Create a full-width image banner with text overlay */
 .banner {
     background: transparent url('/static/image/lan_party_3.png') 0 0 no-repeat fixed;
     text-align: center;
@@ -23,25 +14,25 @@
     display: table;
 }
 
-.banner-head {
-    display: table-cell;
-    vertical-align: middle;
-    margin-bottom: 0;
-    font-size: 2em;
-    color: white;
-    font-weight: 500;
-    text-shadow: 0 1px 1px black;
-}
+    .banner-head {
+        display: table-cell;
+        vertical-align: middle;
+        margin-bottom: 0;
+        font-size: 2em;
+        color: white;
+        font-weight: 500;
+        text-shadow: 0 1px 1px black;
+    }
 
-.attribution {
-    position: absolute;
-    top: 320px;
-    right: 20px;
-    color: rgba(200,200,200,.8);
-    font-size: .6em;
-}
+    .attribution {
+        position: absolute;
+        top: 320px;
+        right: 20px;
+        color: rgba(200,200,200,.8);
+        font-size: .6em;
+    }
 
-.attribution a {
-    text-decoration: none;
-    color: rgba(100,100,100,.8);
-}
+    .attribution a {
+        text-decoration: none;
+        color: rgba(100,100,100,.8);
+    }
