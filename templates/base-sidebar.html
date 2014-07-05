@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block header-links %}
+  {{ block.super }}
+  <link rel="stylesheet" href="/static/style/sidebar.css" />
+{% endblock %}
+
+{% block body %}
+<div id="layout">
+
+{% block menu %}
+<!-- Menu toggle -->
+<a href="#menu" id="menuLink" class="menu-link">
+  <!-- Hamburger icon -->
+  <span></span>
+</a>
+<div id="menu">
+  <div class="pure-menu pure-menu-open">
+    <a class="pure-menu-heading" href="/">
+      {% block menu-title %}Hearthstone Arena Stats{% endblock %}
+    </a>
+    <ul>
+      {% block menu-links %}
+      <li><a href="/account/home/">Account Home</a></li>
+      <li class="pure-menu-heading">Games</li>
+      <li><a href="#">New Arena Match</a></li>
+      <li><a href="#">Current Arena Match</a></li>
+      <li><a href="#">Completed Arena Matches</a></li>
+      <li class="pure-menu-heading">Stats</li>
+      <li><a href="#">Arena Stats</a></li>
+      <li class="pure-menu-heading">Account Preferences</li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="/account/logout">Log Out</a></li>
+      {% endblock %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block main %}
+<div id="main">
+  {% block page-header %}
+  <div class="header">
+    <h1>{% block page-title %}Page Title{% endblock %}</h1>
+    <h2>{% block page-subtitle %}A subtitle for your page goes here{% endblock %}</h2>
+  </div>
+  {% endblock %}
+
+
+  <div class="content">
+  {% block content %}
+    <h2 class="content-subhead">This is a content sub-heading</h2>
+    <p>
+      This is the first body paragraph.
+    </p>
+  {% endblock %}
+  </div>
+
+</div>
+{% endblock %}
+
+</div>
+{% endblock %}

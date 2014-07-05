@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block header-links %}
+  {{ block.super }}
+  <link rel="stylesheet" href="/static/style/pages/login.css" />
+{% endblock %}
+
 {% block body %}
 
   <div class="main-content">

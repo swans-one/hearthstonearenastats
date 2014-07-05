@@ -3,7 +3,7 @@ from braces.views import LoginRequiredMixin
 
 
 class ProfileMainPage(LoginRequiredMixin, TemplateView):
-    template_name = 'account/account-home.html'
+    template_name = 'account/home.html'
 
     login_url = '/account/login/'
 
