@@ -21,7 +21,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hearthstonearenastats.app.card',
+    'hearthstonearenastats.app.account',
     'south',
+    'timezone_field',
 )
 
 MIDDLEWARE_CLASSES = (

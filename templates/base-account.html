@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+{% block menu %}
+<div id="menu">
+  <div class="pure-menu pure-menu-open">
+    <a class="pure-menu-heading" href="/">Hearthstone Arena Stats</a>
+    <ul>
+      <li><a href="/account/home/">Account Home</a></li>
+      <li class="pure-menu-heading">Games</li>
+      <li><a href="#">New Arena Match</a></li>
+      <li><a href="#">Current Arena Match</a></li>
+      <li><a href="#">Completed Arena Matches</a></li>
+      <li class="pure-menu-heading">Stats</li>
+      <li><a href="#">Arena Stats</a></li>
+      <li class="pure-menu-heading">Account Preferences</li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="/account/logout">Log Out</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% endblock %}
