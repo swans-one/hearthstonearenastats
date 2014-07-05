@@ -16,6 +16,4 @@ urlpatterns = patterns(
     url(r'^account/',
         include('hearthstonearenastats.app.account.urls',
                 namespace='account')),
-    url(r'^account/profile/',
-        TemplateView.as_view(template_name='account/profile.html'))
 )
