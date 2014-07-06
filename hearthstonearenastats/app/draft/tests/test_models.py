@@ -76,3 +76,52 @@ class DraftPickValidationTest(TestCase):
                 third=self.card_3,
                 choice=self.card_1,
             )
+
+
+class GameValidationTest(TestCase):
+    def setUp(self):
+        self.draft = G(Draft)
+
+    def test_valid_game(self):
+        Game.objects.create(
+            draft=self.draft,
+            oponent_hero='mage',
+            game_number=1,
+            won=True,
+            coin=True,
+            mulligan_count=4
+        )
+        self.assertEqual(Game.objects.count(), 1)
+
+    def test_invalid_muligans_coin(self):
+        with self.assertRaises(ValidationError):
+            Game.objects.create(
+                draft=self.draft,
+                oponent_hero='mage',
+                game_number=1,
+                won=True,
+                coin=True,
+                mulligan_count=5
+            )
+
+    def test_invalid_muligans_no_coint(self):
+        with self.assertRaises(ValidationError):
+            Game.objects.create(
+                draft=self.draft,
+                oponent_hero='mage',
+                game_number=1,
+                won=True,
+                coin=False,
+                mulligan_count=4
+            )
+
+    def test_invalid_game_number(self):
+        with self.assertRaises(ValidationError):
+            Game.objects.create(
+                draft=self.draft,
+                oponent_hero='mage',
+                game_number=15,
+                won=True,
+                coin=False,
+                mulligan_count=3
+            )
