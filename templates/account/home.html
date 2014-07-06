@@ -1,5 +1,43 @@
 {% extends "account/base-account.html" %}
 
+{% block page-title %}
+  Welcome {% firstof user.first_name user.username %}!
+{% endblock %}
+
+{% block page-subtitle %}
+  Keep track of your arena performance. Whole drafts and individual games.
+{% endblock %}
+
 {% block content %}
-hi
+
+<h2 class="content-subhead">Basic Stats</h2>
+<div class="pure-g stat-summary">
+    <div class="pure-u-1-3">
+      <div class="l-box">
+        <div class="stat">0</div>
+        <p>Arena drafts tracked</p>
+      </div>
+    </div>
+    <div class="pure-u-1-3">
+      <div class="l-box">
+        <div class="stat">0/0</div>
+        <p>Games won/played</p>
+      </div>
+    </div>
+    <div class="pure-u-1-3">
+      <div class="l-box">
+        <div class="stat">Rogue</div>
+        <p>Most successful champion.</p>
+      </div>
+    </div>
+</div>
+
+
+<h2 class="content-subhead">Drafting Status</h2>
+<p>
+  You have not tracked any drafts.
+</p>
+
+<a class="pure-button pure-button-primary" href="#">Track a new draft!</a>
+
 {% endblock %}

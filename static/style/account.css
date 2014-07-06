@@ -1,0 +1,20 @@
+/* Whole grid */
+.pure-g {
+    background: #eee;
+}
+
+
+/* in-grid container */
+.l-box {
+    padding: 1em;
+}
+.l-box p {
+    margin: 0;
+}
+
+/* Style for summary stats */
+.stat-summary .stat {
+    font-weight: 600;
+    font-size: 2em;
+    margin-bottom: .6em;
+}
