@@ -22,6 +22,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'hearthstonearenastats.app.card',
     'hearthstonearenastats.app.account',
+    'hearthstonearenastats.app.draft',
     'south',
     'timezone_field',
 )
