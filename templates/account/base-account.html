@@ -1,5 +1,10 @@
 {% extends "base-sidebar.html" %}
 
+{% block header-links %}
+  {{ block.super }}
+  <link rel="stylesheet" href="/static/style/account.css" />
+{% endblock %}
+
 {% block menu-links %}
 <li>
   <img src="/static/image/blue-bullet.png" />
