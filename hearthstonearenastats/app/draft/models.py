@@ -11,6 +11,14 @@ _hero_choices = (
 HERO_CHOICES = tuple(zip(_hero_choices, _hero_choices))
 
 
+class DraftStatus(models.Model):
+    STAGE_CHOICES = (('pick', 'Pick'), ('game', 'Game'))
+
+    account = models.ForeignKey(Account, unique=True)
+    stage = models.CharField(max_length=4, null=True, choices=STAGE_CHOICES)
+    number = models.PositiveIntegerField(null=True)
+
+
 class Draft(models.Model):
     account = models.ForeignKey(Account)
     first_hero = models.CharField(max_length=8, choices=HERO_CHOICES)
