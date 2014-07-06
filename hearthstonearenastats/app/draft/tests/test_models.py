@@ -3,7 +3,8 @@ from django.test import TestCase
 from django_dynamic_fixture import G
 
 from hearthstonearenastats.app.account.models import Account
-from hearthstonearenastats.app.draft.models import Draft
+from hearthstonearenastats.app.card.models import Card
+from hearthstonearenastats.app.draft.models import Draft, DraftPick, Game
 
 
 class DraftValidationTest(TestCase):
@@ -32,4 +33,46 @@ class DraftValidationTest(TestCase):
                 second_hero='hunter',
                 third_hero='mage',
                 hero_choice='warlock',
+            )
+
+
+class DraftPickValidationTest(TestCase):
+    def setUp(self):
+        self.card_1 = G(Card)
+        self.card_2 = G(Card)
+        self.card_3 = G(Card)
+        self.card_4 = G(Card)
+        self.draft = G(Draft)
+
+    def test_valid_entry(self):
+        DraftPick.objects.create(
+            draft=self.draft,
+            pick_number=1,
+            first=self.card_1,
+            second=self.card_2,
+            third=self.card_3,
+            choice=self.card_1,
+        )
+        self.assertEqual(DraftPick.objects.count(), 1)
+
+    def test_invlaid_card_choice(self):
+        with self.assertRaises(ValidationError):
+            DraftPick.objects.create(
+                draft=self.draft,
+                pick_number=1,
+                first=self.card_1,
+                second=self.card_2,
+                third=self.card_3,
+                choice=self.card_4,
+            )
+
+    def test_invalid_number_choice(self):
+        with self.assertRaises(ValidationError):
+            DraftPick.objects.create(
+                draft=self.draft,
+                pick_number=40,
+                first=self.card_1,
+                second=self.card_2,
+                third=self.card_3,
+                choice=self.card_1,
             )
