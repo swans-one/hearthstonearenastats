@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import utc
 
@@ -23,7 +24,7 @@ class DraftStatus(models.Model):
 
 
 class Draft(models.Model):
-    account = models.ForeignKey(Account)
+    user = models.ForeignKey(User)
     first_hero = models.CharField(max_length=8, choices=HERO_CHOICES)
     second_hero = models.CharField(max_length=8, choices=HERO_CHOICES)
     third_hero = models.CharField(max_length=8, choices=HERO_CHOICES)
