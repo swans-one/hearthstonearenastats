@@ -20,6 +20,13 @@ CHOICES = {
 }
 
 
+class CurrentPatchCardManager(models.Manager):
+    def get_queryset(self):
+        most_recent_patch = Patch.objects.all().order_by('-db_update_date')[0]
+        qs = super(CurrentPatchCardManager, self).get_queryset()
+        return qs.filter(patch=most_recent_patch)
+
+
 class Card(models.Model):
     patch = models.ForeignKey('Patch')
     name = models.CharField(max_length=64)
@@ -33,6 +40,9 @@ class Card(models.Model):
     attack = models.IntegerField(null=True)
     health = models.IntegerField(null=True)
     collectible = models.BooleanField()
+
+    objects = models.Manager()
+    current_patch = CurrentPatchCardManager()
 
     def __unicode__(self):
         name = self.name
