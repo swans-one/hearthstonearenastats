@@ -16,4 +16,6 @@ urlpatterns = patterns(
     url(r'^account/',
         include('hearthstonearenastats.app.account.urls',
                 namespace='account')),
+    url(r'^draft/',
+        include('hearthstonearenastats.app.draft.urls', namespace='draft')),
 )
