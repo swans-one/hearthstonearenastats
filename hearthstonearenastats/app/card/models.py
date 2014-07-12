@@ -34,7 +34,15 @@ class Card(models.Model):
     health = models.IntegerField(null=True)
     collectible = models.BooleanField()
 
+    def __unicode__(self):
+        name = self.name
+        mana = str(self.mana) if self.mana is not None else "-"
+        return "{name} :: {mana}M".format(name=name, mana=mana)
+
 
 class Patch(models.Model):
     patch_version = models.CharField(max_length=32)
     db_update_date = models.DateField(null=True)
+
+    def __unicode__(self):
+        return self.patch_version
