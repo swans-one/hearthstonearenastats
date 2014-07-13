@@ -3,7 +3,9 @@ from django.http import HttpResponseRedirect, Http404
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
 
-from hearthstonearenastats.app.draft.models import Draft, DraftPick, Game
+from hearthstonearenastats.app.draft.models import (
+    Draft, DraftPick, Game, Prizes
+)
 from hearthstonearenastats.app.draft.forms import DraftPickForm
 
 
@@ -89,7 +91,6 @@ class DraftGameCreate(LoginRequiredMixin, CreateView):
         game = form.save(commit=False)
         game.draft = Draft.objects.get(pk=self.kwargs['draft_id'])
         game.game_number = int(self.kwargs['game_number'])
-        print game.game_number
         game.save()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -108,3 +109,30 @@ class DraftGameCreate(LoginRequiredMixin, CreateView):
         else:
             url = '/draft/{draft_id}/game/{next_game}/'
             return url.format(draft_id=draft_id, next_game=next_game)
+
+
+class DraftPrizesCreate(LoginRequiredMixin, CreateView):
+    model = Prizes
+    fields = ('number_packs', 'gold', 'cards', 'golden_cards')
+    initial = {'number_packs': 1}
+
+    def dispatch(self, *args, **kwargs):
+        draft = Draft.objects.get(pk=self.kwargs['draft_id'])
+        if draft.user != self.request.user:
+            raise Http404
+        return super(DraftPrizesCreate, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(DraftPrizesCreate, self).get_context_data(**kwargs)
+        kwargs.update(self.kwargs)
+        return kwargs
+
+    def form_valid(self, form):
+        prizes = form.save(commit=False)
+        prizes.draft = Draft.objects.get(pk=self.kwargs['draft_id'])
+        prizes.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        draft_id = self.kwargs['draft_id']
+        return '/draft/{draft_id}/summary/'.format(draft_id=draft_id)

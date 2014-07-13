@@ -15,5 +15,10 @@ urlpatterns = patterns(
         r'^(?P<draft_id>[0-9]+)/game/(?P<game_number>[0-9]+)/$',
         draft_views.DraftGameCreate.as_view(),
         name='draft-game'
+    ),
+    url(
+        r'^(?P<draft_id>[0-9]+)/prizes/$',
+        draft_views.DraftPrizesCreate.as_view(),
+        name='draft-prizes'
     )
 )
