@@ -1,6 +1,7 @@
 from braces.views import LoginRequiredMixin
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic import CreateView
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 from hearthstonearenastats.app.draft.models import (
@@ -148,3 +149,12 @@ class DraftPrizesCreate(LoginRequiredMixin, FormView):
     def get_success_url(self):
         draft_id = self.kwargs['draft_id']
         return '/draft/{draft_id}/summary/'.format(draft_id=draft_id)
+
+
+class DraftSummary(LoginRequiredMixin, TemplateView):
+    template_name = 'draft/summary.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(DraftSummary, self).get_context_data(**kwargs)
+        kwargs['draft'] = Draft.objects.get(pk=self.kwargs['draft_id'])
+        return kwargs

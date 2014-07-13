@@ -20,5 +20,10 @@ urlpatterns = patterns(
         r'^(?P<draft_id>[0-9]+)/prizes/$',
         draft_views.DraftPrizesCreate.as_view(),
         name='draft-prizes'
-    )
+    ),
+    url(
+        r'^(?P<draft_id>[0-9]+)/summary/$',
+        draft_views.DraftSummary.as_view(),
+        name='draft-summary'
+    ),
 )
