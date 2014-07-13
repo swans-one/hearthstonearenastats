@@ -74,7 +74,7 @@ class DraftPick(models.Model):
 
 class Game(models.Model):
     draft = models.ForeignKey('Draft')
-    oponent_hero = models.CharField(
+    opponent_hero = models.CharField(
         max_length=8, choices=HERO_CHOICES, null=True
     )
     game_number = models.PositiveIntegerField()
