@@ -10,6 +10,13 @@ CHOICES = (
     ('card3', 'Card 3'),
 )
 
+_CARD_QS = (
+    Card.current_patch
+    .filter(collectible=True)
+    .exclude(category__in=('hero', 'ability'))
+    .order_by('mana', 'name')
+)
+
 
 class DraftPickForm(forms.Form):
     # Set the initial querysets to none. They will be populated
@@ -28,11 +35,34 @@ class DraftPickForm(forms.Form):
         self.fields['choice_3'].queryset = card_qs
 
 
+class PrizesForm(forms.Form):
+    number_packs = forms.IntegerField(label='Number of packs')
+    gold = forms.IntegerField(label='Total gold')
+    card_1 = forms.ModelChoiceField(
+        queryset=_CARD_QS, label='Any non-gold cards', required=False,
+    )
+    card_2 = forms.ModelChoiceField(
+        queryset=_CARD_QS, label='', required=False,
+    )
+    card_3 = forms.ModelChoiceField(
+        queryset=_CARD_QS, label='', required=False,
+    )
+    golden_card_1 = forms.ModelChoiceField(
+        queryset=_CARD_QS, label='Any gold cards', required=False,
+    )
+    golden_card_2 = forms.ModelChoiceField(
+        queryset=_CARD_QS, label='', required=False,
+    )
+    golden_card_3 = forms.ModelChoiceField(
+        queryset=_CARD_QS, label='', required=False,
+    )
+
+
 def get_card_qs(draft_id):
     draft = Draft.objects.get(pk=draft_id)
     hero = draft.hero_choice
     qs = Card.current_patch.filter(
         hero__in=(hero, 'neutral'),
         collectible=True,
-    ).order_by('mana', 'name')
+    ).exclude(category__in=('hero', 'ability')).order_by('mana', 'name')
     return qs

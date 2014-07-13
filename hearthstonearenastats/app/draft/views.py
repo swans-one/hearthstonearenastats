@@ -6,7 +6,7 @@ from django.views.generic.edit import FormView
 from hearthstonearenastats.app.draft.models import (
     Draft, DraftPick, Game, Prizes
 )
-from hearthstonearenastats.app.draft.forms import DraftPickForm
+from hearthstonearenastats.app.draft.forms import DraftPickForm, PrizesForm
 
 
 class DraftCreateView(LoginRequiredMixin, CreateView):
@@ -111,10 +111,9 @@ class DraftGameCreate(LoginRequiredMixin, CreateView):
             return url.format(draft_id=draft_id, next_game=next_game)
 
 
-class DraftPrizesCreate(LoginRequiredMixin, CreateView):
-    model = Prizes
-    fields = ('number_packs', 'gold', 'cards', 'golden_cards')
-    initial = {'number_packs': 1}
+class DraftPrizesCreate(LoginRequiredMixin, FormView):
+    form_class = PrizesForm
+    template_name = 'draft/prizes_form.html'
 
     def dispatch(self, *args, **kwargs):
         draft = Draft.objects.get(pk=self.kwargs['draft_id'])
@@ -128,9 +127,22 @@ class DraftPrizesCreate(LoginRequiredMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        prizes = form.save(commit=False)
-        prizes.draft = Draft.objects.get(pk=self.kwargs['draft_id'])
+        card_fields = ['card_1', 'card_2', 'card_3']
+        golden_fields = ['golden_card_1', 'golden_card_2', 'golden_card_3']
+        prize_cards = [form.cleaned_data[c] for c in card_fields]
+        prize_golden_cards = [form.cleaned_data[c] for c in golden_fields]
+        prizes = Prizes(
+            draft=Draft.objects.get(pk=self.kwargs['draft_id']),
+            number_packs=form.cleaned_data['number_packs'],
+            gold=form.cleaned_data['gold'],
+        )
         prizes.save()
+        for card in prize_cards:
+            if card is not None:
+                prizes.cards.add(card)
+        for gold_card in prize_golden_cards:
+            if gold_card is not None:
+                prizes.golden_cards.add(gold_card)
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
