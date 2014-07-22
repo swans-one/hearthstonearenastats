@@ -85,7 +85,7 @@ class GameValidationTest(TestCase):
     def test_valid_game(self):
         Game.objects.create(
             draft=self.draft,
-            oponent_hero='mage',
+            opponent_hero='mage',
             game_number=1,
             won=True,
             coin=True,
@@ -97,7 +97,7 @@ class GameValidationTest(TestCase):
         with self.assertRaises(ValidationError):
             Game.objects.create(
                 draft=self.draft,
-                oponent_hero='mage',
+                opponent_hero='mage',
                 game_number=1,
                 won=True,
                 coin=True,
@@ -108,7 +108,7 @@ class GameValidationTest(TestCase):
         with self.assertRaises(ValidationError):
             Game.objects.create(
                 draft=self.draft,
-                oponent_hero='mage',
+                opponent_hero='mage',
                 game_number=1,
                 won=True,
                 coin=False,
@@ -119,7 +119,7 @@ class GameValidationTest(TestCase):
         with self.assertRaises(ValidationError):
             Game.objects.create(
                 draft=self.draft,
-                oponent_hero='mage',
+                opponent_hero='mage',
                 game_number=15,
                 won=True,
                 coin=False,
