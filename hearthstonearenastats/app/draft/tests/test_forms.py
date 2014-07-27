@@ -29,7 +29,15 @@ class DraftPickFormTest(TestCase):
 
 class PrizesFormTest(TestCase):
     def setUp(self):
-        pass
+        self.form_data = {
+            'number_packs': 1,
+            'gold': 150,
+            'dust': 0,
+        }
+
+    def test_simplest_validation(self):
+        form = draft_forms.PrizesForm(self.form_data)
+        self.assertTrue(form.is_valid)
 
 
 class GetCardQsTest(TestCase):
