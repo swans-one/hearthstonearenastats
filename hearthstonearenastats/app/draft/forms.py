@@ -4,10 +4,28 @@ from hearthstonearenastats.app.draft.models import Draft
 from hearthstonearenastats.app.card.models import Card
 
 
-CHOICES = (
+_CARD_CHOICES = (
     ('card1', 'Card 1'),
     ('card2', 'Card 2'),
     ('card3', 'Card 3'),
+)
+
+_HERO_CHOICE_SELECT = (
+    ('hero1', 'Hero 1'),
+    ('hero2', 'Hero 2'),
+    ('hero3', 'Hero 3'),
+)
+
+_HERO_CHOICES = (
+    ('druid', 'Druid'),
+    ('hunter', 'Hunter'),
+    ('mage', 'Mage'),
+    ('paladin', 'Paladin'),
+    ('priest', 'Priest'),
+    ('rogue', 'Rogue'),
+    ('shaman', 'Shaman'),
+    ('warlock', 'Warlock'),
+    ('warrior', 'Warrior'),
 )
 
 _CARD_QS = (
@@ -18,13 +36,24 @@ _CARD_QS = (
 )
 
 
+class DraftForm(forms.Form):
+    # Set the initial querysets to none. They will be populated
+    # during `__init__`
+    hero_1 = forms.ChoiceField(choices=_HERO_CHOICES)
+    hero_2 = forms.ChoiceField(choices=_HERO_CHOICES)
+    hero_3 = forms.ChoiceField(choices=_HERO_CHOICES)
+    choosen = forms.ChoiceField(
+        widget=forms.RadioSelect, choices=_HERO_CHOICE_SELECT
+    )
+
+
 class DraftPickForm(forms.Form):
     # Set the initial querysets to none. They will be populated
     # during `__init__`
     choice_1 = forms.ModelChoiceField(queryset=Card.objects.none())
     choice_2 = forms.ModelChoiceField(queryset=Card.objects.none())
     choice_3 = forms.ModelChoiceField(queryset=Card.objects.none())
-    choosen = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
+    choosen = forms.ChoiceField(widget=forms.RadioSelect, choices=_CARD_CHOICES)
 
     def __init__(self, *args, **kwargs):
         draft_id = kwargs.pop('draft_id')

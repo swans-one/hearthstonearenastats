@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from braces.views import LoginRequiredMixin
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic import CreateView
@@ -7,23 +9,29 @@ from django.views.generic.edit import FormView
 from hearthstonearenastats.app.draft.models import (
     Draft, DraftPick, Game, Prizes
 )
-from hearthstonearenastats.app.draft.forms import DraftPickForm, PrizesForm
+from hearthstonearenastats.app.draft.forms import (
+    DraftForm, DraftPickForm, PrizesForm
+)
 
 
-class DraftCreateView(LoginRequiredMixin, CreateView):
-    model = Draft
-    fields = ('first_hero', 'second_hero', 'third_hero', 'hero_choice')
+class DraftCreateView(LoginRequiredMixin, FormView):
+    form_class = DraftForm
+    template_name = 'draft/draft_form.html'
 
     def form_valid(self, form):
-        """If the form is valid, this method is called to save and redirect.
-
-        Since we do not have a separate form (One is created from our
-        model/fields combination, we do the extra logic of adding data
-        based on the user here.
-        """
-        self.draft = form.save(commit=False)
-        self.draft.user = self.request.user
-        self.draft.save()
+        hero_choice_mapping = {
+            'hero1': form.cleaned_data['hero_1'],
+            'hero2': form.cleaned_data['hero_2'],
+            'hero3': form.cleaned_data['hero_3'],
+        }
+        self.draft = Draft.objects.create(
+            user=self.request.user,
+            first_hero=form.cleaned_data['hero_1'],
+            second_hero=form.cleaned_data['hero_2'],
+            third_hero=form.cleaned_data['hero_3'],
+            hero_choice=hero_choice_mapping[form.cleaned_data['choosen']],
+            start_date=datetime.utcnow(),
+        )
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
