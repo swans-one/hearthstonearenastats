@@ -20,6 +20,7 @@ class DraftCreateView(LoginRequiredMixin, DraftStatusData, FormView):
     template_name = 'draft/draft_form.html'
 
     def form_valid(self, form):
+        # Clean up the form data and save a draft object
         hero_choice_mapping = {
             'hero1': form.cleaned_data['hero_1'],
             'hero2': form.cleaned_data['hero_2'],
@@ -33,10 +34,15 @@ class DraftCreateView(LoginRequiredMixin, DraftStatusData, FormView):
             hero_choice=hero_choice_mapping[form.cleaned_data['choosen']],
             start_date=datetime.utcnow(),
         )
+
+        # Update draft_status
         draft_status, created = DraftStatus.objects.get_or_create(
             user=self.request.user
         )
-        draft_status.update(draft=self.draft, stage='pick', number=1)
+        draft_status.draft = self.draft
+        draft_status.stage = 'pick'
+        draft_status.number = 1
+        draft_status.save()
         return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
@@ -61,7 +67,7 @@ class DraftPickCreate(LoginRequiredMixin, DraftStatusData, FormView):
     def get_context_data(self, **kwargs):
         context = super(DraftPickCreate, self).get_context_data(**kwargs)
         context.update(self.kwargs)
-        return kwargs
+        return context
 
     def dispatch(self, *args, **kwargs):
         draft = Draft.objects.get(pk=self.kwargs['draft_id'])
@@ -70,6 +76,7 @@ class DraftPickCreate(LoginRequiredMixin, DraftStatusData, FormView):
         return super(DraftPickCreate, self).dispatch(*args, **kwargs)
 
     def form_valid(self, form):
+        # Clean up the form data and save a DraftPick object
         choice_mapping = {
             'card1': form.cleaned_data['choice_1'],
             'card2': form.cleaned_data['choice_1'],
@@ -84,6 +91,17 @@ class DraftPickCreate(LoginRequiredMixin, DraftStatusData, FormView):
             choice=choice_mapping[form.cleaned_data['choosen']],
         )
         pick.save()
+
+        # Update the DraftStatus
+        draft_status = DraftStatus.objects.get(user=self.request.user)
+        next_pick = int(self.kwargs['pick_number']) + 1
+        if next_pick > 30:
+            draft_status.stage = 'game'
+            draft_status.number = 1
+        else:
+            draft_status.stage = 'pick'
+            draft_status.number = next_pick
+        draft_status.save()
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -111,6 +129,20 @@ class DraftGameCreate(LoginRequiredMixin, DraftStatusData, CreateView):
         game.draft = Draft.objects.get(pk=self.kwargs['draft_id'])
         game.game_number = int(self.kwargs['game_number'])
         game.save()
+
+        # Update the DraftStatus
+        draft_status = DraftStatus.objects.get(user=self.request.user)
+        draft_id = self.kwargs['draft_id']
+        next_game = int(self.kwargs['game_number']) + 1
+        wins = Game.objects.filter(draft_id=draft_id, won=True).count()
+        losses = Game.objects.filter(draft_id=draft_id, won=False).count()
+        if next_game > 14 or wins == 12 or losses == 3:
+            draft_status.stage = 'prizes'
+            draft_status.number = None
+        else:
+            draft_status.stage = 'game'
+            draft_status.number = next_game
+        draft_status.save()
         return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
@@ -167,6 +199,14 @@ class DraftPrizesCreate(LoginRequiredMixin, DraftStatusData, FormView):
         for gold_card in prize_golden_cards:
             if gold_card is not None:
                 prizes.golden_cards.add(gold_card)
+
+        # Update the DraftStatus
+        draft_status = DraftStatus.objects.get(user=self.request.user)
+        draft_status.draft = None
+        draft_status.stage = None
+        draft_status.number = None
+        draft_status.save()
+
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
