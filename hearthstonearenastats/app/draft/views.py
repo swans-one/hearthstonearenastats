@@ -34,6 +34,12 @@ class DraftCreateView(LoginRequiredMixin, FormView):
         )
         return HttpResponseRedirect(self.get_success_url())
 
+    def get_context_data(self, **kwargs):
+        kwargs = super(DraftPickForm, self).get_context_data(**kwargs)
+        kwargs.update(self.kwargs)
+        draft_status = DraftStatus.objects.get(user=self.request.user)
+        kwargs.update()
+
     def get_success_url(self):
         draft_id = self.draft.id
         return '/draft/{draft_id}/pick/1/'.format(draft_id=draft_id)
