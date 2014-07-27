@@ -6,15 +6,16 @@ from django.views.generic import CreateView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
-from hearthstonearenastats.app.draft.models import (
-    Draft, DraftPick, Game, Prizes
-)
 from hearthstonearenastats.app.draft.forms import (
     DraftForm, DraftPickForm, PrizesForm
 )
+from hearthstonearenastats.app.draft.mixins import DraftStatusData
+from hearthstonearenastats.app.draft.models import (
+    DraftStatus, Draft, DraftPick, Game, Prizes
+)
 
 
-class DraftCreateView(LoginRequiredMixin, FormView):
+class DraftCreateView(LoginRequiredMixin, DraftStatusData, FormView):
     form_class = DraftForm
     template_name = 'draft/draft_form.html'
 
@@ -32,20 +33,23 @@ class DraftCreateView(LoginRequiredMixin, FormView):
             hero_choice=hero_choice_mapping[form.cleaned_data['choosen']],
             start_date=datetime.utcnow(),
         )
+        draft_status, created = DraftStatus.objects.get_or_create(
+            user=self.request.user
+        )
+        draft_status.update(draft=self.draft, stage='pick', number=1)
         return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
-        kwargs = super(DraftPickForm, self).get_context_data(**kwargs)
-        kwargs.update(self.kwargs)
-        draft_status = DraftStatus.objects.get(user=self.request.user)
-        kwargs.update()
+        context = super(DraftCreateView, self).get_context_data(**kwargs)
+        context.update(self.kwargs)
+        return context
 
     def get_success_url(self):
         draft_id = self.draft.id
         return '/draft/{draft_id}/pick/1/'.format(draft_id=draft_id)
 
 
-class DraftPickCreate(LoginRequiredMixin, FormView):
+class DraftPickCreate(LoginRequiredMixin, DraftStatusData, FormView):
     form_class = DraftPickForm
     template_name = 'draft/pick_form.html'
 
@@ -55,8 +59,8 @@ class DraftPickCreate(LoginRequiredMixin, FormView):
         return form_kwargs
 
     def get_context_data(self, **kwargs):
-        kwargs = super(DraftPickCreate, self).get_context_data(**kwargs)
-        kwargs.update(self.kwargs)
+        context = super(DraftPickCreate, self).get_context_data(**kwargs)
+        context.update(self.kwargs)
         return kwargs
 
     def dispatch(self, *args, **kwargs):
@@ -92,7 +96,7 @@ class DraftPickCreate(LoginRequiredMixin, FormView):
             return url.format(draft_id=draft_id, next_pick=next_pick)
 
 
-class DraftGameCreate(LoginRequiredMixin, CreateView):
+class DraftGameCreate(LoginRequiredMixin, DraftStatusData, CreateView):
     model = Game
     fields = ('opponent_hero', 'won', 'coin', 'mulligan_count')
 
@@ -110,9 +114,9 @@ class DraftGameCreate(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
-        kwargs = super(DraftGameCreate, self).get_context_data(**kwargs)
-        kwargs.update(self.kwargs)
-        return kwargs
+        context = super(DraftGameCreate, self).get_context_data(**kwargs)
+        context.update(self.kwargs)
+        return context
 
     def get_success_url(self):
         draft_id = self.kwargs['draft_id']
@@ -126,7 +130,7 @@ class DraftGameCreate(LoginRequiredMixin, CreateView):
             return url.format(draft_id=draft_id, next_game=next_game)
 
 
-class DraftPrizesCreate(LoginRequiredMixin, FormView):
+class DraftPrizesCreate(LoginRequiredMixin, DraftStatusData, FormView):
     form_class = PrizesForm
     template_name = 'draft/prizes_form.html'
 
@@ -137,9 +141,9 @@ class DraftPrizesCreate(LoginRequiredMixin, FormView):
         return super(DraftPrizesCreate, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        kwargs = super(DraftPrizesCreate, self).get_context_data(**kwargs)
-        kwargs.update(self.kwargs)
-        return kwargs
+        context = super(DraftPrizesCreate, self).get_context_data(**kwargs)
+        context.update(self.kwargs)
+        return context
 
     def form_valid(self, form):
         card_fields = ['card_1', 'card_2', 'card_3']
