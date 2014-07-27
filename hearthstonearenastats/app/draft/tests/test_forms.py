@@ -29,6 +29,7 @@ class DraftPickFormTest(TestCase):
 
 class PrizesFormTest(TestCase):
     def setUp(self):
+        self.card = G(Card)
         self.form_data = {
             'number_packs': 1,
             'gold': 150,
@@ -36,6 +37,16 @@ class PrizesFormTest(TestCase):
         }
 
     def test_simplest_validation(self):
+        form = draft_forms.PrizesForm(self.form_data)
+        self.assertTrue(form.is_valid)
+
+    def test_card_validation(self):
+        self.form_data['card_1'] = self.card.id
+        form = draft_forms.PrizesForm(self.form_data)
+        self.assertTrue(form.is_valid)
+
+    def test_golden_card_validation(self):
+        self.form_data['golden_card_1'] = self.card.id
         form = draft_forms.PrizesForm(self.form_data)
         self.assertTrue(form.is_valid)
 
