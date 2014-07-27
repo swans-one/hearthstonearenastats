@@ -101,6 +101,7 @@ class Prizes(models.Model):
     draft = models.ForeignKey(Draft)
     number_packs = models.PositiveIntegerField()
     gold = models.PositiveIntegerField()
+    dust = models.PositiveIntegerField()
     cards = models.ManyToManyField(Card, related_name='prize_cards')
     golden_cards = models.ManyToManyField(
         Card, related_name='golden_prize_cards'

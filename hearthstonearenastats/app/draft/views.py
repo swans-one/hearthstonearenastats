@@ -132,12 +132,17 @@ class DraftPrizesCreate(LoginRequiredMixin, FormView):
         golden_fields = ['golden_card_1', 'golden_card_2', 'golden_card_3']
         prize_cards = [form.cleaned_data[c] for c in card_fields]
         prize_golden_cards = [form.cleaned_data[c] for c in golden_fields]
+
+        # Create the base prizes object.
         prizes = Prizes(
             draft=Draft.objects.get(pk=self.kwargs['draft_id']),
             number_packs=form.cleaned_data['number_packs'],
             gold=form.cleaned_data['gold'],
+            dust=form.cleaned_data['dust'],
         )
         prizes.save()
+
+        # Add the cards in the many to many relationship.
         for card in prize_cards:
             if card is not None:
                 prizes.cards.add(card)

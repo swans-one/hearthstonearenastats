@@ -38,6 +38,7 @@ class DraftPickForm(forms.Form):
 class PrizesForm(forms.Form):
     number_packs = forms.IntegerField(label='Number of packs')
     gold = forms.IntegerField(label='Total gold')
+    dust = forms.IntegerField(label='Total dust')
     card_1 = forms.ModelChoiceField(
         queryset=_CARD_QS, label='Any non-gold cards', required=False,
     )

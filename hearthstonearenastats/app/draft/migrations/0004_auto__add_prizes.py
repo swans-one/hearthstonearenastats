@@ -14,6 +14,7 @@ class Migration(SchemaMigration):
             ('draft', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['draft.Draft'])),
             ('number_packs', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('gold', self.gf('django.db.models.fields.PositiveIntegerField')()),
+            ('dust', self.gf('django.db.models.fields.PositiveIntegerField')()),
         ))
         db.send_create_signal(u'draft', ['Prizes'])
 
@@ -155,6 +156,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Prizes'},
             'cards': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'prize_cards'", 'symmetrical': 'False', 'to': u"orm['card.Card']"}),
             'draft': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['draft.Draft']"}),
+            'dust': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'gold': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'golden_cards': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'golden_prize_cards'", 'symmetrical': 'False', 'to': u"orm['card.Card']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
