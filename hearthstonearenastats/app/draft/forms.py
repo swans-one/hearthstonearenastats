@@ -53,7 +53,9 @@ class DraftPickForm(forms.Form):
     choice_1 = forms.ModelChoiceField(queryset=Card.objects.none())
     choice_2 = forms.ModelChoiceField(queryset=Card.objects.none())
     choice_3 = forms.ModelChoiceField(queryset=Card.objects.none())
-    choosen = forms.ChoiceField(widget=forms.RadioSelect, choices=_CARD_CHOICES)
+    choosen = forms.ChoiceField(
+        widget=forms.RadioSelect, choices=_CARD_CHOICES
+    )
 
     def __init__(self, *args, **kwargs):
         draft_id = kwargs.pop('draft_id')
