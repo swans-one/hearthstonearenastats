@@ -6,7 +6,6 @@ from django.db import models
 from django.utils.timezone import utc
 
 from hearthstonearenastats.app.card.models import Card
-from hearthstonearenastats.app.account.models import Account
 
 _hero_choices = (
     'druid', 'hunter', 'mage', 'paladin', 'priest',
@@ -16,9 +15,13 @@ HERO_CHOICES = tuple(zip(_hero_choices, _hero_choices))
 
 
 class DraftStatus(models.Model):
-    STAGE_CHOICES = (('pick', 'Pick'), ('game', 'Game'))
+    STAGE_CHOICES = (
+        ('pick', 'Pick'),
+        ('game', 'Game'),
+        ('prizes', 'Prizes'),
+    )
 
-    account = models.ForeignKey(Account, unique=True)
+    user = models.ForeignKey(User, unique=True)
     stage = models.CharField(max_length=4, null=True, choices=STAGE_CHOICES)
     number = models.PositiveIntegerField(null=True)
 
