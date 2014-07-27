@@ -22,6 +22,7 @@ class DraftStatus(models.Model):
     )
 
     user = models.ForeignKey(User, unique=True)
+    draft = models.ForeignKey('Draft', null=True)
     stage = models.CharField(max_length=4, null=True, choices=STAGE_CHOICES)
     number = models.PositiveIntegerField(null=True)
 

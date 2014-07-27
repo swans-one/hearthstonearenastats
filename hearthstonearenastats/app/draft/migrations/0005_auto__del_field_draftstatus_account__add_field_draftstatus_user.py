@@ -16,6 +16,11 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['auth.User'], unique=True),
                       keep_default=False)
 
+        # Adding field 'DraftStatus.draft'
+        db.add_column(u'draft_draftstatus', 'draft',
+                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['draft.Draft'], null=True),
+                      keep_default=False)
+
 
     def backwards(self, orm):
         # Adding field 'DraftStatus.account'
@@ -25,6 +30,9 @@ class Migration(SchemaMigration):
 
         # Deleting field 'DraftStatus.user'
         db.delete_column(u'draft_draftstatus', 'user_id')
+
+        # Deleting field 'DraftStatus.draft'
+        db.delete_column(u'draft_draftstatus', 'draft_id')
 
 
     models = {
@@ -110,6 +118,7 @@ class Migration(SchemaMigration):
         },
         u'draft.draftstatus': {
             'Meta': {'object_name': 'DraftStatus'},
+            'draft': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['draft.Draft']", 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'number': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
             'stage': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True'}),
