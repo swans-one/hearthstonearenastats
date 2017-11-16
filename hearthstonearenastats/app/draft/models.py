@@ -1,11 +1,11 @@
 from datetime import datetime
 
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import utc
 
 from hearthstonearenastats.app.card.models import Card
-from hearthstonearenastats.app.account.models import Account
 
 _hero_choices = (
     'druid', 'hunter', 'mage', 'paladin', 'priest',
@@ -15,15 +15,20 @@ HERO_CHOICES = tuple(zip(_hero_choices, _hero_choices))
 
 
 class DraftStatus(models.Model):
-    STAGE_CHOICES = (('pick', 'Pick'), ('game', 'Game'))
+    STAGE_CHOICES = (
+        ('pick', 'Pick'),
+        ('game', 'Game'),
+        ('prizes', 'Prizes'),
+    )
 
-    account = models.ForeignKey(Account, unique=True)
+    user = models.ForeignKey(User, unique=True)
+    draft = models.ForeignKey('Draft', null=True)
     stage = models.CharField(max_length=4, null=True, choices=STAGE_CHOICES)
     number = models.PositiveIntegerField(null=True)
 
 
 class Draft(models.Model):
-    account = models.ForeignKey(Account)
+    user = models.ForeignKey(User)
     first_hero = models.CharField(max_length=8, choices=HERO_CHOICES)
     second_hero = models.CharField(max_length=8, choices=HERO_CHOICES)
     third_hero = models.CharField(max_length=8, choices=HERO_CHOICES)
@@ -73,7 +78,7 @@ class DraftPick(models.Model):
 
 class Game(models.Model):
     draft = models.ForeignKey('Draft')
-    oponent_hero = models.CharField(
+    opponent_hero = models.CharField(
         max_length=8, choices=HERO_CHOICES, null=True
     )
     game_number = models.PositiveIntegerField()
@@ -94,3 +99,14 @@ class Game(models.Model):
     def save(self, *args, **kwargs):
         self.clean()
         super(Game, self).save(*args, **kwargs)
+
+
+class Prizes(models.Model):
+    draft = models.ForeignKey(Draft)
+    number_packs = models.PositiveIntegerField()
+    gold = models.PositiveIntegerField()
+    dust = models.PositiveIntegerField()
+    cards = models.ManyToManyField(Card, related_name='prize_cards')
+    golden_cards = models.ManyToManyField(
+        Card, related_name='golden_prize_cards'
+    )

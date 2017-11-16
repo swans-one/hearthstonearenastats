@@ -1,0 +1,23 @@
+{% extends "account/base-account.html" %}
+
+{% block content%}
+<p>
+<form class="pure-form pure-form-aligned" action="{% url 'draft:draft-prizes' draft_id %}" method="post">
+  {% csrf_token %}
+  <fieldset>
+
+    {% for field in form.visible_fields %}
+    <div class="pure-control-group">
+      {{ field.label_tag }}
+      {{ field }}
+    </div>
+    {% endfor %}
+
+    <div class="pure-controls">
+      <button type="submit" class="pure-button pure-button-primary">Save</button>
+    </div>
+
+  </fieldset>
+</form>
+</p>
+{% endblock %}

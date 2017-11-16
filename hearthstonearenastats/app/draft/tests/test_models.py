@@ -1,19 +1,19 @@
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django_dynamic_fixture import G
 
-from hearthstonearenastats.app.account.models import Account
 from hearthstonearenastats.app.card.models import Card
 from hearthstonearenastats.app.draft.models import Draft, DraftPick, Game
 
 
 class DraftValidationTest(TestCase):
     def setUp(self):
-        self.account = G(Account)
+        self.user = G(User)
 
     def test_valid_entry(self):
         Draft.objects.create(
-            account=self.account,
+            user=self.user,
             first_hero='druid',
             second_hero='hunter',
             third_hero='mage',
@@ -28,7 +28,7 @@ class DraftValidationTest(TestCase):
     def test_invalid_hero_choice(self):
         with self.assertRaises(ValidationError):
             Draft.objects.create(
-                account=self.account,
+                user=self.user,
                 first_hero='druid',
                 second_hero='hunter',
                 third_hero='mage',
@@ -85,7 +85,7 @@ class GameValidationTest(TestCase):
     def test_valid_game(self):
         Game.objects.create(
             draft=self.draft,
-            oponent_hero='mage',
+            opponent_hero='mage',
             game_number=1,
             won=True,
             coin=True,
@@ -97,7 +97,7 @@ class GameValidationTest(TestCase):
         with self.assertRaises(ValidationError):
             Game.objects.create(
                 draft=self.draft,
-                oponent_hero='mage',
+                opponent_hero='mage',
                 game_number=1,
                 won=True,
                 coin=True,
@@ -108,7 +108,7 @@ class GameValidationTest(TestCase):
         with self.assertRaises(ValidationError):
             Game.objects.create(
                 draft=self.draft,
-                oponent_hero='mage',
+                opponent_hero='mage',
                 game_number=1,
                 won=True,
                 coin=False,
@@ -119,7 +119,7 @@ class GameValidationTest(TestCase):
         with self.assertRaises(ValidationError):
             Game.objects.create(
                 draft=self.draft,
-                oponent_hero='mage',
+                opponent_hero='mage',
                 game_number=15,
                 won=True,
                 coin=False,
